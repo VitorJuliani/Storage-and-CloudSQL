@@ -1,0 +1,9 @@
+package com.example.storageandsqlstudy.configuration
+
+import com.example.storageandsqlstudy.property.GoogleCloudStorageProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+@EnableConfigurationProperties(GoogleCloudStorageProperties::class)
+class GoogleCloudStoragePropertiesConfiguration

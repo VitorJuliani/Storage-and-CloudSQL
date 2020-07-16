@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    username: ${USERNAME}
+    password: ${PASSWORD}
+    driver-class-name: ${DRIVER}
+  cloud:
+    gcp:
+      project-id: ${PROJECT_ID}
+      credentials:
+        location: ${CREDENTIALS}
+      sql:
+        database-name: ${DATABASE_NAME}
+        instance-connection-name: ${INSTANCE}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+gcs:
+  bucketName: ${BUCKET_NAME}
+  signUrlDurationInMinutes: 10
+  baseUrl: https://storage.cloud.google.com
+  image:
+    defaultImageObject: no-image
+    imageExtension: jpg
+    imageFormat: image/jpeg
+    defaultImageUrl: ${DEFAULT_IMAGE_URL}
+
