@@ -30,11 +30,17 @@ class BookServiceImp(private val bookRepository: BookRepository,
     }
 
     override fun updateBook(id: Long, bookRequest: BookRequest): Book {
-        val imageAsByteArray = Base64.getDecoder().decode(bookRequest.newImage)
+        val bookTobeUpdated = bookRepository.getOne(id)
 
-        val imageUrl: String = bookRequest.currentImage?.let {
-            storageService.updateObject(imageAsByteArray, it)
-        } ?: throw Exception("Current image is necessary to update")
+        if (bookRequest.currentImage == null || bookTobeUpdated.image != bookRequest.currentImage) {
+            throw Exception("Insert a valid image")
+        }
+
+        val imageAsByteArray = bookRequest.newImage?.let {
+            Base64.getDecoder().decode(it)
+        }
+
+        val imageUrl: String = storageService.updateObject(imageAsByteArray, bookRequest.currentImage)
 
         val book = Book(bookRequest, imageUrl)
 

@@ -50,7 +50,8 @@ class ImageGoogleCloudStorageService(private val storage: Storage,
                 } catch (e: Exception) {
                     throw Exception("Image update error")
                 }
-            } ?: storageProperties.image.defaultImageUrl
+            } ?: deleteObject(objectUrl)
+            storageProperties.image.defaultImageUrl
         }
     }
 
