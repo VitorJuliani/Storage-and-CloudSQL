@@ -4,15 +4,17 @@ import com.example.storageandsqlstudy.property.GoogleCloudStorageProperties
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
+import org.springframework.stereotype.Service
 import java.net.URL
 import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+@Service
 class ImageGoogleCloudStorageService(private val storage: Storage,
-                                     private val storageProperties: GoogleCloudStorageProperties) : StorageService {
+                                     private val storageProperties: GoogleCloudStorageProperties) {
 
-    override fun uploadObject(data: ByteArray?): String {
+    fun uploadObject(data: ByteArray?): String {
         return data?.let {
             val objectName = "${UUID.randomUUID()}"
             val blobId = BlobId.of(storageProperties.bucketName, objectName)
@@ -32,7 +34,7 @@ class ImageGoogleCloudStorageService(private val storage: Storage,
         } ?: storageProperties.image.defaultImageUrl
     }
 
-    override fun updateObject(data: ByteArray?, objectUrl: String): String {
+    fun updateObject(data: ByteArray?, objectUrl: String): String {
         val objectName = getObjectNameFromUrl(objectUrl)
 
         return if (objectName == storageProperties.image.defaultImageObject) {
@@ -55,7 +57,7 @@ class ImageGoogleCloudStorageService(private val storage: Storage,
         }
     }
 
-    override fun deleteObject(objectUrl: String): Boolean {
+    fun deleteObject(objectUrl: String): Boolean {
         val objectName = getObjectNameFromUrl(objectUrl)
 
         return if (objectName != storageProperties.image.defaultImageObject) {
@@ -69,7 +71,7 @@ class ImageGoogleCloudStorageService(private val storage: Storage,
         }
     }
 
-    override fun generateSignUrl(objectName: String): String {
+    fun generateSignUrl(objectName: String): String {
         val blobId = BlobId.of(storageProperties.bucketName, objectName)
         val blobInfo = BlobInfo.newBuilder(blobId).build()
 
@@ -86,7 +88,7 @@ class ImageGoogleCloudStorageService(private val storage: Storage,
                 .removeSuffix(".${storageProperties.image.imageExtension}")
     }
 
-    private fun objectUrl(objectName: String ): String {
+    private fun objectUrl(objectName: String): String {
         return "${storageProperties.baseUrl}/${storageProperties.bucketName}/$objectName.${storageProperties.image.imageExtension}"
     }
 }
