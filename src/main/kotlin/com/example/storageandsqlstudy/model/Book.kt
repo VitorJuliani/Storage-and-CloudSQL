@@ -1,6 +1,5 @@
 package com.example.storageandsqlstudy.model
 
-import com.example.storageandsqlstudy.model.BookRequest
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -14,9 +13,9 @@ data class Book(
     val author: String,
     val price: Long,
     val creationDate: LocalDate,
-    val image: String
+    val image: String?
 ) {
-    constructor(bookRequest: BookRequest, image: String) : this(
+    constructor(bookRequest: BookRequest, image: String?) : this(
             null,
             bookRequest.name,
             bookRequest.author,
